@@ -53,7 +53,7 @@ router.delete('/solicitud/:id', verificarToken, esAdoptante, async (req, res) =>
         const filasEliminadas = await SolicitudAdopcion.destroy({
             where: {
                 id: req.params.id,
-                adoptanteId: req.usuario.id // Verificación de propiedad
+                adoptanteId: req.usuario.id
             }
         });
 

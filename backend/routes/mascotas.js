@@ -16,7 +16,7 @@ const esDueño = (req, res, next) => {
 // Obtener todas las mascotas
 router.get('/mascota', async (req, res) => {
     try {
-        const mascotas = await Mascota.findAll({ include: [{ model: Usuario, as: 'dueño' }] });
+        const mascotas = await Mascota.findAll({ include: [{ model: Usuario, as: 'usuario' }] });
         res.status(200).json(mascotas);
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al obtener mascotas', error: error.message });
@@ -51,7 +51,7 @@ router.get('/mascota/buscar', async (req, res) => {
 
         const mascotas = await Mascota.findAll({
             where: condiciones,
-            include: [{ model: Usuario, as: 'dueño' }]
+            include: [{ model: Usuario, as: 'usuario' }]
         });
 
         if (mascotas.length > 0) {

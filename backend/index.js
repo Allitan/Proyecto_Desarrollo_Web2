@@ -14,8 +14,8 @@ const mascotasRoutes = require('./routes/mascotas');
 const solicutudesRoutes = require('./routes/solicitudes');
 
 app.use('/api/usuarios', usuariosRoutes);
-app.use('/api/mascotas', mascotasRoutes);
-app.use('/api/solicitudes', solicutudesRoutes);
+app.use('/api', mascotasRoutes);
+app.use('/api', solicutudesRoutes);
 
 sequelize.sync({ force: false})
     .then(()=> {
