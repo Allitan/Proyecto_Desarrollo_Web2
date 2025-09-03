@@ -58,7 +58,6 @@ export default function Home() {
         </div>
         <div className="card-body">
           {isLoginView ? (
-            // Formulario de Login
             <form onSubmit={handleLogin}>
               <h2>Iniciar Sesión</h2>
               <div className="mb-3">
@@ -72,7 +71,6 @@ export default function Home() {
               <button type="submit" className="btn btn-primary">Entrar</button>
             </form>
           ) : (
-            // Formulario de Registro
             <form onSubmit={handleRegistro}>
               <h2>Registrarse</h2>
               <div className="mb-3">

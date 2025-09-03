@@ -9,3 +9,15 @@ export interface Usuario {
 export interface Plantilla {
     children: React.ReactNode
 }
+
+export interface Mascota {
+  id_mascota: number;
+  nombre: string;
+  edad: number;
+  tipo: string;
+  raza: string;
+  descripcion: string;
+  foto: string;
+  disponible: boolean;
+  id_dueno: number;
+}
