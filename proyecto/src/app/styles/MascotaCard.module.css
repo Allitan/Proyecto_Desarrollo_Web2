@@ -1,0 +1,20 @@
+/* MascotaCard.module.css - placeholder styles for MascotaCard component */
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 1rem;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.cardContent {
+  font-size: 1rem;
+  color: #333;
+}

@@ -1,0 +1,23 @@
+/* Home.module.css - placeholder styles for Home page */
+.container {
+  min-height: 500vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  padding: 5rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.link {
+  color: #e7e7e7;
+  text-decoration: none;
+}

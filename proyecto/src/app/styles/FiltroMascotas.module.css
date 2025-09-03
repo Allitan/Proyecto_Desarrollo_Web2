@@ -1,0 +1,16 @@
+/* FiltroMascotas.module.css - placeholder styles for FiltroMascotas component */
+.filtroContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.filtroLabel {
+  font-weight: bold;
+}
+
+.filtroInput {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
