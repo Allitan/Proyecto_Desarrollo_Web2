@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const Usuario = require('../Modelos/Usuario');
 const { where } = require('sequelize');
 const jwt = require('jsonwebtoken');
+const verificarToken = require('../middleware/auth')
 
 router.post('/registro', async (req, res) => {
     try{
@@ -61,6 +62,30 @@ router.post('/login', async (req, res) =>{
         res.status(500).json({mensaje: 'Error en el inicio de sesion', error: error.message})
     }
 });
+
+
+router.delete('/:id', verificarToken, async (req, res) => {
+    try {
+        const idUsuarioAEliminar = req.params.id;
+
+        if (req.usuario.id.toString() !== idUsuarioAEliminar.toString()) {
+            return res.status(403).json({ mensaje: 'Acceso denegado. No tiene permisos para eliminar a este usuario.' });
+        }
+
+        const filasEliminadas = await Usuario.destroy({
+            where: { id_usuario: idUsuarioAEliminar }
+        });
+
+        if (filasEliminadas > 0) {
+            res.status(200).json({ mensaje: 'Usuario eliminado exitosamente.' });
+        } else {
+            res.status(404).json({ mensaje: 'Usuario no encontrado.' });
+        }
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al eliminar el usuario', error: error.message });
+    }
+});
+
 
 module.exports=router;
 
