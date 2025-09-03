@@ -12,7 +12,7 @@ export default function DashboardPage() {
     }
 
     if (!usuario) {
-        router.push('/'); // Redirige al login si no hay usuario
+        router.push('/');
         return null;
     }
 
