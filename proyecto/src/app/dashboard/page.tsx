@@ -19,7 +19,7 @@ export default function DashboardPage() {
     return (
         <div className="container mt-5">
             <h2>Bienvenido, {usuario.nombre}</h2>
-            <p>Has iniciado sesión exitosamente.</p>
+            <p>Has iniciado sesión exitosamente</p>
             <p>Tu rol es: {usuario.esAdoptante ? 'Adoptante' : ''} {usuario.esDueño ? 'Dueño' : ''}</p>
         </div>
     );
