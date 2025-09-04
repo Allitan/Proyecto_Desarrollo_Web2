@@ -11,7 +11,7 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [esAdoptante, setEsAdoptante] = useState(false);
-  const [esDueno, setEsDueno] = useState(false);
+  const [esDueño, setEsDueño] = useState(false);
   const { login, registro } = useAuth();
   const router = useRouter();
 
@@ -32,7 +32,7 @@ export default function Home() {
       email,
       contraseña: password,
       esAdoptante,
-      esDueno
+      esDueño
     };
     const exito = await registro(datosRegistro);
     if (exito) {
@@ -93,7 +93,7 @@ export default function Home() {
               </div>
               <div className="mb-3">
                 <div className="form-check">
-                  <input className="form-check-input" type="checkbox" checked={esDueno} onChange={(e) => setEsDueno(e.target.checked)} />
+                  <input className="form-check-input" type="checkbox" checked={esDueño} onChange={(e) => setEsDueño(e.target.checked)} />
                   <label className="form-check-label">Soy Dueño</label>
                 </div>
               </div>
