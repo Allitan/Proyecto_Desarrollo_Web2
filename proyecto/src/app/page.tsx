@@ -1,9 +1,7 @@
 'use client'
-import Image from "next/image";
 import React, { useState } from "react";
 import { useAuth } from "./Providers/authProvider";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 export default function Home() {
   const [isLoginView, setIsLoginView] = useState(true);
@@ -42,9 +40,10 @@ export default function Home() {
       alert('Error en el registro.');
     }
   };
-
+"container mt-5"
   return (
-    <div className="container mt-5">
+    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-3 bg-gradient-to-r from-gray-900 via-indigo-300 to-red-900 text-white">
+     <div className="container mt-79">
       <div className="card mx-auto" style={{ maxWidth: '500px' }}>
         <div className="card-header text-center">
           <ul className="nav nav-tabs card-header-tabs">
@@ -102,6 +101,7 @@ export default function Home() {
           )}
         </div>
       </div>
+      </div> 
     </div>
   );
 }

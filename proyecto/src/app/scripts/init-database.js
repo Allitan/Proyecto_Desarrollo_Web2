@@ -1,6 +1,6 @@
-const { Pool } = require('pg')
-const fs = require('fs')
-const path = require('path')
+import { Pool } from 'pg'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 async function initializeDatabase() {
   const pool = new Pool({
@@ -12,8 +12,8 @@ async function initializeDatabase() {
     const client = await pool.connect()
     
     // Leer y ejecutar el archivo SQL
-    const sqlPath = path.join(__dirname, 'init-db.sql')
-    const sql = fs.readFileSync(sqlPath, 'utf8')
+    const sqlPath = join(__dirname, 'init-db.sql')
+    const sql = readFileSync(sqlPath, 'utf8')
     
     await client.query(sql)
     console.log('Base de datos inicializada exitosamente')

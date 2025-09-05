@@ -1,12 +1,17 @@
 'use client'
 import React, {useState, useEffect} from "react"
 import { AuthContext } from "../Context/authContext"
-import { Plantilla, Usuario } from "../Modelos/auth"
+import { Plantilla } from "../Modelos/auth"
+import { Usuario } from "../Modelos/Usuario";
+
+
 
 export default function AuthProvider({ children }: Plantilla) {
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [cargando, setCargando] = useState<boolean>(true);
+   
+
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -52,14 +57,15 @@ export default function AuthProvider({ children }: Plantilla) {
         console.log('Sesión cerrada');
     };
 
-    const registro = async (datos: any): Promise<boolean> => {
-        try {
-            const response = await fetch('http://localhost:5000/api/usuarios/registro', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(datos),
+    const registro = async (_datos: any): Promise<boolean> => {
+        try {  
+
+            const response = await fetch('http://localhost:5000/api/usuarios/registro',  {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}),
             });
 
             const data = await response.json();
@@ -78,9 +84,10 @@ export default function AuthProvider({ children }: Plantilla) {
     };
 
     return (
-        <AuthContext.Provider value={{ usuario, token, login, logout, registro, cargando }}>
-            {children}
-        </AuthContext.Provider>
+      <AuthContext.Provider value={{ usuario, token, login, logout, registro, cargando }}>
+        {children}
+      </AuthContext.Provider>
+
     );
 }
 
