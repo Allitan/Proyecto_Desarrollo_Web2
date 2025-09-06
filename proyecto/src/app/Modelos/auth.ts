@@ -17,7 +17,7 @@ export interface Mascota {
   raza: string | null;
   edad: number | null;
   descripcion: string | null;
-  foto: string | null;
+  foto: string;
   estado: 'disponible' | 'pendiente' | 'adoptado';
   dueñoId: number;
 }
