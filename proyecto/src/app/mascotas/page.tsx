@@ -63,7 +63,7 @@ export default function MascotasPage() {
                 <p className="card-text">
                   <strong>Raza:</strong> {mascota.raza} <br/>
                   <strong>Edad:</strong> {mascota.edad} años <br/>
-                  <strong>Tipo:</strong> {mascota.tipo}
+                  <strong>Especie:</strong> {mascota.especie}
                 </p>
                 <p className="card-text">{mascota.descripcion}</p>
                 <button className="btn btn-primary">Adoptar</button>

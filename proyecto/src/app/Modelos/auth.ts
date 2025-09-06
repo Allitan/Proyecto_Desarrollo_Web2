@@ -13,11 +13,11 @@ export interface Plantilla {
 export interface Mascota {
   id_mascota: number;
   nombre: string;
-  edad: number;
-  tipo: string;
-  raza: string;
-  descripcion: string;
+  especie: string;
+  raza: string | null;
+  edad: number | null;
+  descripcion: string | null;
   foto: string;
-  disponible: boolean;
-  id_dueno: number;
+  estado: 'disponible' | 'pendiente' | 'adoptado';
+  dueñoId: number;
 }
