@@ -19,8 +19,13 @@ export default function DashboardPage() {
     return (
         <div className="container mt-5">
             <h2>Bienvenido, {usuario.nombre}</h2>
+<<<<<<< Updated upstream
             <p>Has iniciado sesión exitosamente</p>
             <p>Tu rol es: {usuario.esAdoptante ? 'Adoptante' : ''} {usuario.esDueño ? 'Dueño' : ''}</p>
+=======
+            <p>Has iniciado sesión exitosamente.</p>
+            <p>Tu rol es: {usuario.esAdoptante ? 'Adoptante' : ''} {usuario.esDueno ? 'Dueño' : ''}</p>
+>>>>>>> Stashed changes
         </div>
     );
 }

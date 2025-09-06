@@ -3,6 +3,8 @@ import React from "react"
 import Link from "next/link"
 import { useAuth } from "../Providers/authProvider"
 import { useRouter } from "next/navigation"
+import { Usuario } from "../Modelos/auth"
+
 
 export default function NavbarComponent() {
     const { usuario, logout, cargando } = useAuth();
