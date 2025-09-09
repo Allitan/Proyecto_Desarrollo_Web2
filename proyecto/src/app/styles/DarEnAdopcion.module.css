@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #000000 100%);
   padding: 0 2rem;
 }
 
@@ -13,10 +13,10 @@
 }
 
 .formContainer {
-  background: white;
+  background: rgb(0, 0, 0);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
   width: 100%;
   max-width: 600px;
 }
@@ -24,7 +24,7 @@
 .title {
   text-align: center;
   margin-bottom: 2rem;
-  color: #333;
+  color: #000000;
   font-size: 2rem;
 }
 
