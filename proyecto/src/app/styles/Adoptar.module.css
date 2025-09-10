@@ -11,7 +11,7 @@
 
 .title {
   text-align: center;
-  color: white;
+  color: rgb(255, 255, 255);
   font-size: 3rem;
   margin-bottom: 2rem;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -33,7 +33,7 @@
 
 .loading {
   text-align: center;
-  color: white;
+  color: rgb(255, 255, 255);
   font-size: 1.2rem;
   padding: 2rem;
 }

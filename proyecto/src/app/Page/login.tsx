@@ -1,11 +1,12 @@
 "use client"
 import { useState } from 'react'
 import Link from 'next/link'
-import Navigation from '../components/Navigation'
 import styles from '../styles/Auth.module.css'
 import router from 'next/router'
+import { useAuth } from '../Context/login'
 
 export default function Login() {
+  const { login } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -18,28 +19,15 @@ export default function Login() {
         setLoading(true)
         setError('')
 
-        try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            })
+        const success = await login(formData.email, formData.password)
 
-            const data = await response.json()
-
-            if (data.success) {
-                localStorage.setItem('user', JSON.stringify(data.user))
-                router.push('/')
-            } else {
-                setError(data.message)
-            }
-        } catch (error) {
-            setError('Error al iniciar sesión')
-        } finally {
-            setLoading(false)
+        if (success) {
+            router.push('/')
+        } else {
+            setError('Credenciales inválidas')
         }
+
+        setLoading(false)
     }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +38,7 @@ export default function Login() {
   }
 
   return (
+    
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.formContainer}>
@@ -60,7 +49,11 @@ export default function Login() {
               {error}
             </div>
           )}
-
+          {loading && (
+            <div className={styles.info}>
+              Cargando...
+            </div>
+          )}
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.inputGroup}>
               <label htmlFor="email">Email</label>

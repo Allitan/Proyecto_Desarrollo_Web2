@@ -1,7 +1,8 @@
 
 .container {
   min-height: 400vh;
-  background: linear-gradient(135deg, #ffffff 0%, );
+  background: linear-gradient(135deg, #000000 0%, );
+  padding: 0 2rem;
 }
 
 .main {
@@ -13,10 +14,10 @@
 }
 
 .formContainer {
-  background: white;
+  background: rgb(0, 0, 0);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgb(255, 1, 1);
+  box-shadow: 0 8px 32px rgb(255, 255, 255);
   width: 100%;
   max-width: 400px;
 }
@@ -24,7 +25,7 @@
 .title {
   text-align: center;
   margin-bottom: 2rem;
-  color: #333;
+  color: #ffffff;
   font-size: 2rem;
 }
 
@@ -42,12 +43,12 @@
 
 .inputGroup label {
   font-weight: 600;
-  color: #000000;
+  color: #ffffff;
 }
 
 .input {
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid #ffffff;
   border-radius: 6px;
   font-size: 1rem;
 }
@@ -60,7 +61,7 @@
 
 .submitButton {
   background: #667eea;
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   padding: 0.75rem;
   border-radius: 6px;
@@ -76,14 +77,14 @@
 }
 
 .submitButton:disabled {
-  background: #ccc;
+  background: #000000;
   cursor: not-allowed;
 }
 
 .switchText {
   text-align: center;
   margin-top: 1rem;
-  color: #666;
+  color: #ffffff;
 }
 
 .link {
@@ -97,12 +98,12 @@
 }
 
 .error {
-  background: #ffebee;
+  background: #ffffff;
   color: #c62828;
   padding: 0.75rem;
   border-radius: 6px;
   margin-bottom: 1rem;
-  border: 1px solid #ffcdd2;
+  border: 1px solid #000000;
 }
 
 .success {
@@ -111,5 +112,5 @@
   padding: 0.75rem;
   border-radius: 6px;
   margin-bottom: 1rem;
-  border: 1px solid #c8e6c9;
+  border: 1px solid #ffffff;
 }

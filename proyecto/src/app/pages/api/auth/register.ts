@@ -16,8 +16,10 @@ type RegisterRequest = {
   nombre: string
   email: string
   contraseña: string
-  telefono: string
-  direccion: string
+  esAdoptante: boolean
+  esDueno: boolean
+  telefono?: string
+  direccion?: string
 }
 
 type ApiResponse = {
@@ -37,12 +39,12 @@ export default async function handler(
     })
   }
 
-  const { nombre, email, contraseña, telefono, direccion }: RegisterRequest = req.body
+  const { nombre, email, contraseña, esAdoptante, esDueno, telefono, direccion }: RegisterRequest = req.body
 
-  if (!nombre || !email || !contraseña || !telefono || !direccion) {
+  if (!nombre || !email || !contraseña) {
     return res.status(400).json({
       success: false,
-      message: 'Todos los campos son requeridos'
+      message: 'Nombre, email y contraseña son requeridos'
     })
   }
 
@@ -64,9 +66,9 @@ export default async function handler(
     // Crear nuevo usuario
     const result = await client.query(
       `INSERT INTO usuarios (nombre, email, contraseña, telefono, direccion, esAdoptante, esDueño)
-       VALUES ($1, $2, $3, $4, $5, true, false)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING id_usuario, nombre, email, telefono, direccion, esAdoptante, esDueño, createdAt`,
-      [nombre, email, contraseña, telefono, direccion]
+      [nombre, email, contraseña, telefono || '', direccion || '', esAdoptante, esDueno]
     )
 
     const newUser = result.rows[0]
