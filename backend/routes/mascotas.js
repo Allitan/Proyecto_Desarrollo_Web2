@@ -26,7 +26,7 @@ router.get('/mascota', async (req, res) => {
 // Crear una nueva mascota
 router.post('/mascota', verificarToken, esDueño, async (req, res) => {
     try {
-        const nuevaMascota = await Mascota.create({ ...req.body, dueñoId: req.usuario.id_usuario });
+        const nuevaMascota = await Mascota.create({ ...req.body, dueñoId: req.usuario.id });
         res.status(201).json({ mensaje: 'Mascota publicada exitosamente', data: nuevaMascota });
     } catch (error) {
         console.error(error);
