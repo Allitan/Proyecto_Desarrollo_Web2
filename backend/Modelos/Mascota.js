@@ -34,7 +34,6 @@ const Mascota = sequelize.define('mascotas', {
     estado: {
         type: DataTypes.ENUM('disponible', 'pendiente', 'adoptado'),
         defaultValue: 'disponible',
-        allowNull: false
     },
     dueñoId: {
         type: DataTypes.INTEGER,
