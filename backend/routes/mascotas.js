@@ -13,7 +13,7 @@ const esDueño = (req, res, next) => {
 
 };
 
-// Obtener todas las mascotas
+// aqui es donde obtengo todas las mascotas
 router.get('/mascota', async (req, res) => {
     try {
         const mascotas = await Mascota.findAll({ include: [{ model: Usuario, as: 'usuario' }] });
@@ -23,18 +23,17 @@ router.get('/mascota', async (req, res) => {
     }
 });
 
-// Crear una nueva mascota
+// este es para crear una nueva mascota
 router.post('/mascota', verificarToken, esDueño, async (req, res) => {
     try {
         const nuevaMascota = await Mascota.create({ ...req.body, dueñoId: req.usuario.id });
         res.status(201).json({ mensaje: 'Mascota publicada exitosamente', data: nuevaMascota });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ mensaje: 'Error al crear mascota', error: error.message });
     }
 });
 
-// Buscar mascotas por especie, raza, etc.
+// este es para buscar mascotas por especie, raza, etc.
 router.get('/mascota/buscar', async (req, res) => {
     try {
         const { especie, raza, estado } = req.query;
@@ -65,7 +64,7 @@ router.get('/mascota/buscar', async (req, res) => {
     }
 });
 
-// Actualizar una mascota
+// este es para actualizar una mascota
 router.put('/mascota/:id', verificarToken, esDueño, async (req, res) => {
     try {
         const [filasActualizadas] = await Mascota.update(req.body, { where: { id_mascota: req.params.id, dueñoId: req.usuario.id } });
@@ -79,7 +78,7 @@ router.put('/mascota/:id', verificarToken, esDueño, async (req, res) => {
     }
 });
 
-// Eliminar una mascota
+// este es para eliminar una mascota
 router.delete('/mascota/:id', verificarToken, esDueño, async (req, res) => {
     try {
         const filasEliminadas = await Mascota.destroy({ where: { id_mascota: req.params.id, dueñoId: req.usuario.id } });
@@ -90,6 +89,15 @@ router.delete('/mascota/:id', verificarToken, esDueño, async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al eliminar mascota', error: error.message });
+    }
+});
+
+router.get('/mascotas/disponibles', async (req, res) => {
+    try {
+        const mascotas = await Mascota.findAll({ where: { estado: 'disponible' } });
+        res.status(200).json(mascotas);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al obtener mascotas', error: error.message });
     }
 });
 

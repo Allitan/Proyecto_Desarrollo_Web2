@@ -21,3 +21,26 @@ export interface Mascota {
   estado: 'disponible' | 'pendiente' | 'adoptado';
   dueñoId: number;
 }
+
+export interface Solicitud {
+    id: number;
+    adoptanteId: number;
+    mascotaId: number;
+    estado: 'pendiente' | 'aceptada' | 'rechazada';
+    createdAt: string;
+}
+
+export interface NuevaSolicitudData {
+    adoptanteId: any
+    mensaje: string;
+    solicitud: Solicitud;
+    mascota: Mascota;
+}
+
+export interface RespuestaSolicitudData {
+    solicitudId: number
+    mensaje: string;
+    estado: 'aceptada' | 'rechazada';
+    mascota: Mascota;
+    dueño: Usuario;
+}

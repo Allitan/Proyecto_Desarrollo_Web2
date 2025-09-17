@@ -25,23 +25,31 @@ export default function NavbarComponent() {
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
                 <Link className="navbar-brand" href="/dashboard">ADOPTANDO</Link>
-                
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link className="nav-link" href="/mascotas">Mascotas</Link>
-                        </li>
-                        {usuario.esDueño && (
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                        <Link className="nav-link" href="/mascotas">Mascotas</Link>
+                    </li>
+                    {usuario.esDueño && (
+                        <>
                             <li className="nav-item">
                                 <Link className="nav-link" href="/mascotas/agregar">Agregar Mascota</Link>
                             </li>
-                        )}
+                            <li className="nav-item">
+                                <Link className="nav-link" href="/solicitudes-recibidas">Solicitudes Recibidas</Link>
+                            </li>
+                        </>
+                    )}
+                    {usuario.esAdoptante && (
                         <li className="nav-item">
-                            <button className="nav-link btn btn-link" onClick={handleLogout}>
-                                Cerrar Sesión
-                            </button>
+                            <Link className="nav-link" href="/mis-solicitudes">Mis Solicitudes</Link>
                         </li>
-                    </ul>
-                
+                    )}
+                    <li className="nav-item">
+                        <button className="nav-link btn btn-link" onClick={handleLogout}>
+                            Cerrar Sesión
+                        </button>
+                    </li>
+                </ul>
             </div>
         </nav>
     );
