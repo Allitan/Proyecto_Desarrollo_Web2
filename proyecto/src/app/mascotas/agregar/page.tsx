@@ -3,9 +3,6 @@ import React, { useState } from 'react'
 import { useAuth } from '@/app/Providers/authProvider'
 import { useRouter } from 'next/navigation'
 
-
-
-
 export default function page() {
     const { token, usuario } =useAuth();
     const router = useRouter();

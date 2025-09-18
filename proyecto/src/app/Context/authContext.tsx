@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 // Modelo de Usuario
 export interface Usuario {
+  esDueño: any;
   id: number;
   nombre: string;
   email: string;

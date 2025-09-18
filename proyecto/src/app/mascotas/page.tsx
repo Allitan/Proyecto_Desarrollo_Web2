@@ -4,6 +4,7 @@ import { Mascota } from "../Modelos/auth"
 import { useAuth } from "../Providers/authProvider"
 import { useRouter } from "next/navigation"
 
+
 export default function MascotasPage() {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
   const [cargando, setCargando] = useState(true);
@@ -53,6 +54,10 @@ export default function MascotasPage() {
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Mascotas Disponibles</h1>
+      <form className="d-flex  col-sm-3 offset-md-9 mb-3" role="search">
+        <input className="form-control me-2" type="Buscar" placeholder="Buscar" aria-label="Buscar"/>
+        <button className="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
       <div className="row">
         {mascotas.map((mascota) => (
           <div key={mascota.id_mascota} className="col-md-4 mb-4">
