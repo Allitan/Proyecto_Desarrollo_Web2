@@ -4,14 +4,15 @@ import { Mascota } from "../Modelos/auth"
 import { useAuth } from "../Providers/authProvider"
 import { useRouter } from "next/navigation"
 
-
 export default function MascotasPage() {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [] = useState<any[]>([]); 
   const { token } = useAuth();
   const router = useRouter();
 
+ 
   useEffect(() => {
     async function fetchMascotas() {
       if (!token) {
@@ -51,12 +52,13 @@ export default function MascotasPage() {
     return <div className="alert alert-danger text-center mt-5">{error}</div>;
   }
 
-  return (
+
+  return (  
     <div className="container mt-5">
       <h1 className="text-center mb-4">Mascotas Disponibles</h1>
-      <form className="d-flex  col-sm-3 offset-md-9 mb-3" role="search">
-        <input className="form-control me-2" type="Buscar" placeholder="Buscar" aria-label="Buscar"/>
-        <button className="btn btn-outline-success" type="submit">Buscar</button>
+      <form className="d-flex col-12 col-sm-3 offset-md-9 mb-4" action="/search">
+        <input className="form-control me-2" type="buscar" placeholder="buscar" aria-label="buscar" name="query"/>
+        <button className="btn btn-outline-success"type="submit">Buscar</button>
       </form>
       <div className="row">
         {mascotas.map((mascota) => (
@@ -71,7 +73,7 @@ export default function MascotasPage() {
                   <strong>Especie:</strong> {mascota.especie}
                 </p>
                 <p className="card-text">{mascota.descripcion}</p>
-                <button className="btn btn-primary">Adoptar</button>
+                <button className="btn btn-primary">Adoptar</button>  
               </div>
             </div>
           </div>

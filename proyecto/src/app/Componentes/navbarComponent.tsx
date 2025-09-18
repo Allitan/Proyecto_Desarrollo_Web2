@@ -1,22 +1,13 @@
 'use client'
-import React, { useState } from "react"
+import React from "react"
 import Link from "next/link"
 import { useAuth } from "../Providers/authProvider"
 import { useRouter } from "next/navigation"
 
-
-
 export default function NavbarComponent() {
-    const [usuarios] = useState<Usuario[]>([]);
     const { usuario, logout, cargando } = useAuth();
     const router = useRouter();
 
-    interface Usuario {
-    id: number;
-    nombre: string;
-    esDueño: boolean;
-    }
-    usuarios.map(u => <p>{u.esDueño}</p>);
     const handleLogout = () => {
         logout();
         router.push('/');
@@ -31,7 +22,7 @@ export default function NavbarComponent() {
     }
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
                 <Link className="navbar-brand" href="/dashboard">ADOPTANDO</Link>
                 
@@ -39,7 +30,7 @@ export default function NavbarComponent() {
                         <li className="nav-item">
                             <Link className="nav-link" href="/mascotas">Mascotas</Link>
                         </li>
-                        {usuario.esDueno && (
+                        {usuario.esDueño && (
                             <li className="nav-item">
                                 <Link className="nav-link" href="/mascotas/agregar">Agregar Mascota</Link>
                             </li>

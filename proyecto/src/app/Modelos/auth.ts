@@ -1,3 +1,5 @@
+import { Key } from "readline"
+
 export interface Usuario {
     id_usuario: number
     nombre: string
@@ -11,6 +13,7 @@ export interface Plantilla {
 }
 
 export interface Mascota {
+  id: Key | null | undefined
   id_mascota: number;
   nombre: string;
   especie: string;
