@@ -24,8 +24,11 @@ router.post('/solicitud', verificarToken, esAdoptante, async (req, res) => {
         if (!mascota) {
             return res.status(404).json({ mensaje: 'Mascota no encontrada' });
         }
-
-        const nuevaSolicitud = await SolicitudAdopcion.create({ adoptanteId, mascotaId });
+        
+        const nuevaSolicitud = await SolicitudAdopcion.create({ 
+            adoptanteId, 
+            mascotaId 
+        });
 
         const dueñoId = mascota.dueñoId;
         req.io.to(dueñoId).emit('nueva_solicitud', {
@@ -35,6 +38,7 @@ router.post('/solicitud', verificarToken, esAdoptante, async (req, res) => {
         });
 
         res.status(201).json({ mensaje: 'Solicitud creada exitosamente', data: nuevaSolicitud });
+
     } catch (error) {
         console.error('Error al crear solicitud:', error);
         res.status(500).json({ mensaje: 'Error al crear solicitud', error: error.message });
@@ -42,7 +46,7 @@ router.post('/solicitud', verificarToken, esAdoptante, async (req, res) => {
 });
 
 // esta es la ruta para ver u obtener las solicitudes que el dueño ha recibido poe
-router.get('/solicitud/dueno', verificarToken, async (req, res) => {
+router.get('/solicitud/duenio', verificarToken, async (req, res) => {
     try {
         if (!req.usuario.esDueño) {
             return res.status(403).json({ mensaje: 'Acceso denegado. Solo los dueños pueden ver sus solicitudes.' });
@@ -52,8 +56,8 @@ router.get('/solicitud/dueno', verificarToken, async (req, res) => {
             include: [
                 {
                     model: Mascota,
-                    as: 'mascota', 
-                    where: { dueñoId: req.usuario.id_usuario },
+                    as: 'mascota',
+                    where: { dueñoId: req.usuario.id }, // <-- ¡CORREGIDO!
                     include: [{
                         model: Usuario,
                         as: 'usuario',
@@ -100,7 +104,7 @@ router.put('/solicitud/:id/respuesta', verificarToken, async (req, res) => {
     try {
         const { id } = req.params;
         const { estado } = req.body;
-        const dueñoId = req.usuario.id_usuario;
+        const dueñoId = req.usuario.id;
 
         const solicitud = await SolicitudAdopcion.findByPk(id, { include: [{ model: Mascota, as: 'mascota' }] });
 

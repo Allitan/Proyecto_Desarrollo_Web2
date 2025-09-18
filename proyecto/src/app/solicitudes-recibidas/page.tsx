@@ -6,7 +6,7 @@ import { NuevaSolicitudData } from "../Modelos/auth";
 import Image from "next/image";
 
 interface Solicitud {
-    id: number;
+    id_solicitud: number;
     estado: string;
     adoptante: {
         id_usuario: number;
@@ -60,7 +60,7 @@ export default function SolicitudesRecibidasPage() {
 
     const fetchSolicitudes = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/solicitud/dueño', {
+            const res = await fetch('http://localhost:5000/api/solicitud/duenio', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!res.ok) {
@@ -96,7 +96,7 @@ export default function SolicitudesRecibidasPage() {
 
             setSolicitudes(prev => 
                 prev.map(sol => 
-                    sol.id === solicitudId ? { ...sol, estado } : sol
+                    sol.id_solicitud === solicitudId ? { ...sol, estado } : sol
                 )
             );
             alert(`Solicitud ${estado} exitosamente.`);
@@ -124,10 +124,10 @@ export default function SolicitudesRecibidasPage() {
             <h1 className="text-center mb-4">Solicitudes Recibidas</h1>
             <div className="row">
                 {solicitudes.map((solicitud: Solicitud) => (
-                    <div key={solicitud.id} className="col-md-4 mb-4">
+                    <div key={solicitud.id_solicitud} className="col-md-4 mb-4">
                         <div className="card h-100">
                             <div className="card-body">
-                                <h5 className="card-title">Solicitud de: {solicitud.adoptante.nombre}</h5>
+                                <h5 className="card-title">Solicitud de: {solicitud.adoptante?.nombre}</h5>
                                 <p className="card-text">Para: {solicitud.mascota.nombre}</p>
                                 <p className={`card-text fw-bold ${solicitud.estado === 'pendiente' ? 'text-warning' : solicitud.estado === 'aceptada' ? 'text-success' : 'text-danger'}`}>
                                     Estado: {solicitud.estado}
@@ -136,13 +136,13 @@ export default function SolicitudesRecibidasPage() {
                                     <div className="d-flex justify-content-between mt-3">
                                         <button
                                             className="btn btn-success"
-                                            onClick={() => handleRespuesta(solicitud.id, 'aceptada')}
+                                            onClick={() => handleRespuesta(solicitud.id_solicitud, 'aceptada')}
                                         >
                                             Aceptar
                                         </button>
                                         <button
                                             className="btn btn-danger"
-                                            onClick={() => handleRespuesta(solicitud.id, 'rechazada')}
+                                            onClick={() => handleRespuesta(solicitud.id_solicitud, 'rechazada')}
                                         >
                                             Rechazar
                                         </button>
