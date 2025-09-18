@@ -1,0 +1,8 @@
+export default class Usuario {
+  constructor(
+    public id: number,
+    public nombre: string,
+    public email: string
+  ) {}
+}
+
