@@ -29,6 +29,7 @@ router.post('/mascota', verificarToken, esDueño, async (req, res) => {
         const nuevaMascota = await Mascota.create({ ...req.body, dueñoId: req.usuario.id });
         res.status(201).json({ mensaje: 'Mascota publicada exitosamente', data: nuevaMascota });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ mensaje: 'Error al crear mascota', error: error.message });
     }
 });

@@ -1,9 +1,10 @@
 const {Sequelize}= require('sequelize');
 
 const sequelize = new Sequelize(
-    'proyecto',
-    'root-user',
-    'root-contraseña Diego,20',
+    'adopcion_mascotas',
+    'root',
+    'Diego,20',
+
     {
         host:'localhost',
         port:3306,
