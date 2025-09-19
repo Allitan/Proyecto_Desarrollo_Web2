@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const Usuario = require('../Modelos/Usuario');
 const { where } = require('sequelize');
 const jwt = require('jsonwebtoken');
-const verificarToken = require('../middleware/auth')
+const { verificarToken } = require('../middleware/auth')
 
 router.post('/registro', async (req, res) => {
     try{
@@ -49,7 +49,7 @@ router.post('/login', async (req, res) =>{
         }
 
         const payload ={
-            id: usuario.id_usuario,
+            id_usuario: usuario.id_usuario,
             esAdoptante: usuario.esAdoptante,
             esDueño: usuario.esDueño
         }
@@ -68,7 +68,7 @@ router.delete('/:id', verificarToken, async (req, res) => {
     try {
         const idUsuarioAEliminar = req.params.id;
 
-        if (req.usuario.id.toString() !== idUsuarioAEliminar.toString()) {
+        if (req.usuario.id_usuario.toString()  !== idUsuarioAEliminar.toString()) {
             return res.status(403).json({ mensaje: 'Acceso denegado. No tiene permisos para eliminar a este usuario.' });
         }
 

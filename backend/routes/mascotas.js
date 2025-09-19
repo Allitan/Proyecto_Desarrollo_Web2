@@ -2,16 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Mascota = require('../Modelos/Mascota');
 const Usuario = require('../Modelos/Usuario');
-const verificarToken = require('../middleware/auth');
+const { verificarToken, esDueño } = require('../middleware/auth');
 
-const esDueño = (req, res, next) => {
-    if(req.usuario && req.usuario.esDueño){
-        next();
-    }else{
-        res.status(403).json({mensaje: 'Acceso denegado. No tiene permisos para esta accion'});
-    }
-
-};
 
 // Obtener todas las mascotas
 router.get('/mascota', async (req, res) => {
@@ -26,7 +18,7 @@ router.get('/mascota', async (req, res) => {
 // Crear una nueva mascota
 router.post('/mascota', verificarToken, esDueño, async (req, res) => {
     try {
-        const nuevaMascota = await Mascota.create({ ...req.body, dueñoId: req.usuario.id });
+        const nuevaMascota = await Mascota.create({ ...req.body, dueñoId: req.usuario.id_usuario });
         res.status(201).json({ mensaje: 'Mascota publicada exitosamente', data: nuevaMascota });
     } catch (error) {
         console.error(error);
@@ -68,7 +60,7 @@ router.get('/mascota/buscar', async (req, res) => {
 // Actualizar una mascota
 router.put('/mascota/:id', verificarToken, esDueño, async (req, res) => {
     try {
-        const [filasActualizadas] = await Mascota.update(req.body, { where: { id_mascota: req.params.id, dueñoId: req.usuario.id } });
+        const [filasActualizadas] = await Mascota.update(req.body, { where: { id_mascota: req.params.id, dueñoId: req.usuario.id_usuario } });
         if (filasActualizadas > 0) {
             res.status(200).json({ mensaje: 'Mascota actualizada exitosamente' });
         } else {
@@ -82,7 +74,7 @@ router.put('/mascota/:id', verificarToken, esDueño, async (req, res) => {
 // Eliminar una mascota
 router.delete('/mascota/:id', verificarToken, esDueño, async (req, res) => {
     try {
-        const filasEliminadas = await Mascota.destroy({ where: { id_mascota: req.params.id, dueñoId: req.usuario.id } });
+        const filasEliminadas = await Mascota.destroy({ where: { id_mascota: req.params.id, dueñoId: req.usuario.id_usuario } });
         if (filasEliminadas > 0) {
             res.status(200).json({ mensaje: 'Mascota eliminada exitosamente' });
         } else {
