@@ -1,9 +1,11 @@
-"use client";
+"use client"; // esto es obligatorio para usar useSearchParams
 import { useSearchParams } from "next/navigation";
 
 export default function SearchPage() {
-  const searchParams = useSearchParams();
-  const query = searchParams.get("query");
+  const searchParams = useSearchParams(); // obtiene los parámetros de la URL
+  const query = searchParams.get("query"); // aquí guardamos el valor de ?query=
+
+  console.log("query:", query); // verifica en la consola
 
   return (
     <div className="container">
@@ -16,3 +18,4 @@ export default function SearchPage() {
     </div>
   );
 }
+

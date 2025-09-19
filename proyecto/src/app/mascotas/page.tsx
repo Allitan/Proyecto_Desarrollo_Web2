@@ -98,10 +98,6 @@ export default function MascotasPage() {
   if (error) {
     return <div className="alert alert-danger text-center mt-5">{error}</div>;
   }
-  function onEdit(id: number) {
-   router.push(`/mascotas/editar/${id}`);
-  }
-
 
   return (  
     <div className="container mt-5">
@@ -132,12 +128,6 @@ export default function MascotasPage() {
                   <strong>Especie:</strong> {mascota.especie}
                 </p>
                 <p className="card-text">{mascota.descripcion}</p>
-                <button 
-                className="col-12 col-mt-3 mb-3 bg-yellow-500 text-white px-3 py-2 rounded hover:bg-yellow-600"  
-                onClick={() => onEdit(mascota.id_mascota)} 
-                >
-                  Editar
-                </button>
                 <button className="col-12 col-mt-3 md-2 bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"  onClick={() => onDelete(mascota.id_mascota)} >
                   Eliminar
                 </button>
