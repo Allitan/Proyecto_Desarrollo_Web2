@@ -6,14 +6,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Home() {
-  const [isLoginView, setIsLoginView] = useState(true);
-  const [nombre, setNombre] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [esAdoptante, setEsAdoptante] = useState(false);
-  const [esDueño, setEsDueño] = useState(false);
-  const { login, registro } = useAuth();
-  const router = useRouter();
+  const [isLoginView, setIsLoginView] = useState(true)
+  const [nombre, setNombre] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [esAdoptante, setEsAdoptante] = useState(false)
+  const [esDueño, setEsDueño] = useState(false)
+  const { login, registro } = useAuth()
+  const router = useRouter()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ export default function Home() {
     };
     const exito = await registro(datosRegistro);
     if (exito) {
-      alert('Registro exitoso. ¡Ahora inicia sesión!');
+      alert('Registro exitoso. Ahora inicia sesión!');
       setIsLoginView(true);
     } else {
       alert('Error en el registro.');

@@ -4,16 +4,16 @@ const bcrypt = require('bcrypt');
 const Usuario = require('../Modelos/Usuario');
 const { where } = require('sequelize');
 const jwt = require('jsonwebtoken');
-const verificarToken = require('../middleware/auth')
+const { verificarToken } = require('../middleware/auth')
 
 router.post('/registro', async (req, res) => {
-    try{
-        const { nombre, email, contraseña, esAdoptante, esDueño }= req.body;
+    try {
+        const { nombre, email, contraseña, esAdoptante, esDueño } = req.body;
 
-        const usuarioExistente = await Usuario.findOne({ where: {email}});
-         if(usuarioExistente){
-            return res.status(409).json({ mensaje:'El email ya esta registrado'});
-         }
+        const usuarioExistente = await Usuario.findOne({ where: { email } });
+        if (usuarioExistente) {
+            return res.status(409).json({ mensaje: 'El email ya esta registrado' });
+        }
 
         const salt = await bcrypt.genSalt(10);
         const contraseñaEncriptada = await bcrypt.hash(contraseña, salt);
@@ -26,40 +26,40 @@ router.post('/registro', async (req, res) => {
             esDueño
         });
 
-        res.status(201).json({ mensaje: 'Usuario registrado exitosamente', data: nuevoUsuario})
-    }catch(error){
-       res.status(500).json({ mensaje: 'Error al registrar el usuario', error: error.message }); 
+        res.status(201).json({ mensaje: 'Usuario registrado exitosamente', data: nuevoUsuario })
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al registrar el usuario', error: error.message });
     }
 });
 
-router.post('/login', async (req, res) =>{
-    try{
-        const { email, contraseña} = req.body;
+router.post('/login', async (req, res) => {
+    try {
+        const { email, contraseña } = req.body;
 
-        const usuario = await Usuario.findOne({where: {email}});
+        const usuario = await Usuario.findOne({ where: { email } });
 
-        if(!usuario){
-            return res.status(404).json({mensaje: 'Email o contraseña incorrectos'})
+        if (!usuario) {
+            return res.status(404).json({ mensaje: 'Email o contraseña incorrectos' })
         }
 
         const contraseñaValida = await bcrypt.compare(contraseña, usuario.contraseña);
 
-        if(!contraseñaValida){
-            return res.status(401).json({mensaje: 'Email o contraseña incorrectos'});
+        if (!contraseñaValida) {
+            return res.status(401).json({ mensaje: 'Email o contraseña incorrectos' });
         }
 
-        const payload ={
-            id: usuario.id_usuario,
+        const payload = {
+            id_usuario: usuario.id_usuario,
             esAdoptante: usuario.esAdoptante,
             esDueño: usuario.esDueño
         }
 
-        const token = jwt.sign(payload, 'TU_SECETO_SUPER_SEGURO', {expiresIn: '1h'});
+        const token = jwt.sign(payload, 'TU_SECETO_SUPER_SEGURO', { expiresIn: '1h' });
 
-    
-        res.status(200).json({mensaje: 'Inicio de sesion exitoso', token: token, data: usuario});
-    }catch(error){
-        res.status(500).json({mensaje: 'Error en el inicio de sesion', error: error.message})
+
+        res.status(200).json({ mensaje: 'Inicio de sesion exitoso', token: token, data: usuario });
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error en el inicio de sesion', error: error.message })
     }
 });
 
@@ -68,7 +68,7 @@ router.delete('/:id', verificarToken, async (req, res) => {
     try {
         const idUsuarioAEliminar = req.params.id;
 
-        if (req.usuario.id.toString() !== idUsuarioAEliminar.toString()) {
+        if (req.usuario.id_usuario.toString() !== idUsuarioAEliminar.toString()) {
             return res.status(403).json({ mensaje: 'Acceso denegado. No tiene permisos para eliminar a este usuario.' });
         }
 
@@ -87,5 +87,5 @@ router.delete('/:id', verificarToken, async (req, res) => {
 });
 
 
-module.exports=router;
+module.exports = router;
 

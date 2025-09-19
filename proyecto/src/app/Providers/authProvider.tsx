@@ -86,4 +86,4 @@ export default function AuthProvider({ children }: Plantilla) {
 
 export const useAuth = () => {
     return React.useContext(AuthContext);
-}    
+}

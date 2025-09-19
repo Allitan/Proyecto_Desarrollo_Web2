@@ -11,11 +11,11 @@ app.use(cors());
 
 const usuariosRoutes = require('./routes/usuarios');
 const mascotasRoutes = require('./routes/mascotas');
-const solicutudesRoutes = require('./routes/solicitudes');
+const solicitudesRoutes = require('./routes/solicitudes');
 
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api', mascotasRoutes);
-app.use('/api', solicutudesRoutes);
+app.use('/api/solicitudes', solicitudesRoutes);
 
 sequelize.sync({ force: false})
     .then(()=> {
