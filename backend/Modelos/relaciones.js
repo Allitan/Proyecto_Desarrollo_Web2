@@ -24,5 +24,6 @@ Mascota.hasMany(SolicitudAdopcion, {
   foreignKey: 'mascotaId', // La clave foránea en la tabla 'solicitudesAdopcion'
 });
 SolicitudAdopcion.belongsTo(Mascota, {
-  foreignKey: 'mascotaId', // La clave foránea en la tabla 'solicitudesAdopcion'
+  foreignKey: 'mascotaId',
+  as: 'mascota' // La clave foránea en la tabla 'solicitudesAdopcion'
 });

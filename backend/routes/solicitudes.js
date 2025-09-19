@@ -23,7 +23,7 @@ router.get('/mis-solicitudes', verificarToken, esAdoptante, async (req, res) => 
         const solicitudes = await SolicitudAdopcion.findAll({
             where: { adoptanteId: req.usuario.id_usuario },
             // Incluye el modelo Mascota para poder mostrar la información en el dashboard
-            include: [{ model: Mascota }]
+            include: [{ model: Mascota, as: 'mascota' }]
         });
         res.status(200).json(solicitudes);
     } catch (error) {
@@ -40,6 +40,7 @@ router.get('/duenio', verificarToken, esDueño, async (req, res) => {
             include: [
                 {
                     model: Mascota,
+                    as: 'mascota',
                     where: { dueñoId: req.usuario.id_usuario }
                 },
                 {
@@ -59,16 +60,16 @@ router.get('/duenio', verificarToken, esDueño, async (req, res) => {
 // ➡️ RUTA CORREGIDA: Actualizar el estado de una solicitud (Aceptar/Rechazar)
 router.put('/:id/respuesta', verificarToken, esDueño, async (req, res) => {
     try {
-        const { estado } = req.body;
+        const estado = req.body.estado.toLowerCase();
         const solicitud = await SolicitudAdopcion.findByPk(req.params.id, {
-            include: [{ model: Mascota }]
+            include: [{ model: Mascota, as:'mascota' }]
         });
 
         if (!solicitud) {
             return res.status(404).json({ mensaje: 'Solicitud no encontrada.' });
         }
 
-        if (solicitud.Mascota.dueñoId !== req.usuario.id_usuario) {
+        if (solicitud.mascota.dueñoId !== req.usuario.id_usuario) {
             return res.status(403).json({ mensaje: 'No tiene permiso para responder a esta solicitud.' });
         }
 
