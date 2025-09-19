@@ -57,6 +57,20 @@ router.get('/mascota/buscar', async (req, res) => {
     }
 });
 
+// Obtener las mascotas de un dueño específico
+router.get('/mascota/duenio', verificarToken, esDueño, async (req, res) => {
+    try {
+        const mascotas = await Mascota.findAll({
+            where: { dueñoId: req.usuario.id_usuario },
+            include: [{ model: Usuario, as: 'usuario' }]
+        });
+        res.status(200).json(mascotas);
+        
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al obtener las mascotas del dueño.', error: error.message });
+    }
+});
+
 // Actualizar una mascota
 router.put('/mascota/:id', verificarToken, esDueño, async (req, res) => {
     try {

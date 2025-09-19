@@ -1,15 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const SolicitudAdopcion = require('../Modelos/SolicitudAdopcion');
-const Mascota = require('../Modelos/Mascota');
-const Usuario = require('../Modelos/Usuario');
-const { verificarToken, esAdoptante, esDueño } = require('../middleware/auth');
+const SolicitudAdopcion = require('../Modelos/SolicitudAdopcion')
+const Mascota = require('../Modelos/Mascota')
+const Usuario = require('../Modelos/Usuario')
+const { verificarToken, esAdoptante, esDueño } = require('../middleware/auth')
+const { Op } = require('sequelize')
 
-// ➡️ RUTA CORREGIDA: Crear una nueva solicitud de adopción
-router.post('/', verificarToken, esAdoptante, async (req, res) => {
+//Crear una nueva solicitud de adopción
+router.post('/', verificarToken, esAdoptante, async(req, res) => {
     try {
-        // Usa req.usuario.id_usuario según tu modelo de datos
-        const nuevaSolicitud = await SolicitudAdopcion.create({ ...req.body, adoptanteId: req.usuario.id_usuario });
+        const { mascotaId } =req.body;
+        const mascota = await Mascota.findByPk(mascotaId);
+        if (!mascota) {
+            return res.status(404).json({ mensaje: 'La mascota no existe' })
+        }
+        if (mascota.estado !== 'disponible') {
+            return res.status(409).json({ mensaje: 'Esta mascota ya no está disponible para adopción.' });
+        }
+        const nuevaSolicitud = await SolicitudAdopcion.create({
+            mascotaId,
+            adoptanteId: req.usuario.id_usuario,
+            estado: 'pendiente'
+        });
+        
         res.status(201).json({ mensaje: 'Solicitud creada exitosamente', data: nuevaSolicitud });
     } catch (error) {
         console.error('Error al crear solicitud:', error);
@@ -17,12 +30,11 @@ router.post('/', verificarToken, esAdoptante, async (req, res) => {
     }
 });
 
-// ➡️ RUTA CORREGIDA: Obtener todas las solicitudes enviadas por un adoptante
+//  Obtener todas las solicitudes enviadas por un adoptante
 router.get('/mis-solicitudes', verificarToken, esAdoptante, async (req, res) => {
     try {
         const solicitudes = await SolicitudAdopcion.findAll({
             where: { adoptanteId: req.usuario.id_usuario },
-            // Incluye el modelo Mascota para poder mostrar la información en el dashboard
             include: [{ model: Mascota, as: 'mascota' }]
         });
         res.status(200).json(solicitudes);
@@ -32,11 +44,10 @@ router.get('/mis-solicitudes', verificarToken, esAdoptante, async (req, res) => 
     }
 });
 
-// ➡️ RUTA CORREGIDA: Obtener solicitudes recibidas por un dueño
+//Obtener solicitudes recibidas por un dueño
 router.get('/duenio', verificarToken, esDueño, async (req, res) => {
     try {
         const solicitudes = await SolicitudAdopcion.findAll({
-            // Trae solo las solicitudes de las mascotas que pertenecen al dueño logueado
             include: [
                 {
                     model: Mascota,
@@ -44,7 +55,6 @@ router.get('/duenio', verificarToken, esDueño, async (req, res) => {
                     where: { dueñoId: req.usuario.id_usuario }
                 },
                 {
-                    // Incluye los datos del adoptante para mostrarlos en el dashboard
                     model: Usuario,
                     as: 'adoptante'
                 }
@@ -57,38 +67,65 @@ router.get('/duenio', verificarToken, esDueño, async (req, res) => {
     }
 });
 
-// ➡️ RUTA CORREGIDA: Actualizar el estado de una solicitud (Aceptar/Rechazar)
 router.put('/:id/respuesta', verificarToken, esDueño, async (req, res) => {
+    const t = await SolicitudAdopcion.sequelize.transaction(); // Inicia la transacción
     try {
-        const estado = req.body.estado.toLowerCase();
+        const { estado } = req.body;
         const solicitud = await SolicitudAdopcion.findByPk(req.params.id, {
-            include: [{ model: Mascota, as:'mascota' }]
+            include: [{ model: Mascota, as: 'mascota' }],
+            transaction: t
         });
 
         if (!solicitud) {
+            await t.rollback();
             return res.status(404).json({ mensaje: 'Solicitud no encontrada.' });
         }
 
         if (solicitud.mascota.dueñoId !== req.usuario.id_usuario) {
+            await t.rollback();
             return res.status(403).json({ mensaje: 'No tiene permiso para responder a esta solicitud.' });
         }
+        await solicitud.update({ estado }, { transaction: t });
 
-        await solicitud.update({ estado });
+
+        if (estado === 'aceptada') {
+            const mascotaId = solicitud.mascotaId;
+
+            await Mascota.update(
+                { estado: 'adoptado' },
+                { where: { id_mascota: mascotaId }, transaction: t }
+            );
+
+            await SolicitudAdopcion.update(
+                { estado: 'rechazada' },
+                {
+                    where: {
+                        mascotaId: mascotaId,
+                        estado: 'pendiente',
+                        id: { [Op.ne]: req.params.id } // Ignora la solicitud actual
+                    },
+                    transaction: t
+                }
+            );
+        }
+
+        await t.commit();
         res.status(200).json({ mensaje: `Solicitud ${estado} con éxito.` });
 
     } catch (error) {
+        await t.rollback();
         console.error('Error al responder a la solicitud:', error);
         res.status(500).json({ mensaje: 'Error al actualizar solicitud', error: error.message });
     }
 });
 
-// ➡️ RUTA CORREGIDA: Eliminar una solicitud de adopción
+// Eliminar una solicitud de adopción
 router.delete('/:id', verificarToken, esAdoptante, async (req, res) => {
     try {
         const filasEliminadas = await SolicitudAdopcion.destroy({
             where: {
                 id: req.params.id,
-                adoptanteId: req.usuario.id_usuario // Usa id_usuario
+                adoptanteId: req.usuario.id_usuario
             }
         });
 

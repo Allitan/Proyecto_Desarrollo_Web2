@@ -1,15 +1,15 @@
 'use client'
-import React, { useState, useEffect } from "react";
-import { Mascota } from "../Modelos/auth";
-import { useAuth } from "../Providers/authProvider";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react"
+import { Mascota } from "../Modelos/auth"
+import { useAuth } from "../Providers/authProvider"
+import { useRouter } from "next/navigation"
 
 export default function MascotasPage() {
-  const [mascotas, setMascotas] = useState<Mascota[]>([]);
+  const [mascotas, setMascotas] = useState<Mascota[]>([])
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null)
   const { token } = useAuth();
-  const router = useRouter();
+  const router = useRouter()
 
   useEffect(() => {
     async function fetchMascotas() {
@@ -20,12 +20,12 @@ export default function MascotasPage() {
           }
         });
         if (!response.ok) {
-          throw new Error('Error al obtener las mascotas.');
+          throw new Error('Error al obtener las mascotas');
         }
         const data = await response.json();
         setMascotas(data);
       } catch (err) {
-        setError('No se pudo cargar la lista de mascotas.');
+        setError('No se pudo cargar la lista de mascotas');
         console.error(err);
       } finally {
         setCargando(false);
@@ -36,7 +36,7 @@ export default function MascotasPage() {
 
   const handleAdoptar = async (mascotaId: number) => {
     if (!token) {
-      alert('Debes iniciar sesión para adoptar una mascota.');
+      alert('Debes iniciar sesión para adoptar una mascota');
       router.push('/');
       return;
     }
@@ -53,14 +53,14 @@ export default function MascotasPage() {
 
       const data = await response.json();
       if (response.ok) {
-        alert('Solicitud de adopción enviada con éxito.');
+        alert('Solicitud de adopción enviada con éxito');
         router.push('/dashboard');
       } else {
         alert(`Error: ${data.mensaje}`);
       }
     } catch (error) {
       console.error('Error al enviar la solicitud:', error);
-      alert('Ocurrió un error al conectar con el servidor.');
+      alert('Ocurrió un error al conectar con el servidor');
     }
   };
 
