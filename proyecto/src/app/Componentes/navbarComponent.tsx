@@ -22,30 +22,30 @@ export default function NavbarComponent() {
     }
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-lg shadow-sm" style={{ backgroundColor: 'var(--color-azul)' }}>
             <div className="container-fluid">
-                <Link className="navbar-brand" href="/dashboard">ADOPTANDO</Link>
+                <Link className="navbar-brand text-white" href="/dashboard">ADOPTANDO</Link>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item">
-                        <Link className="nav-link" href="/mascotas">Mascotas</Link>
+                        <Link className="nav-link text-white" href="/mascotas">Mascotas</Link>
                     </li>
                     {usuario.esDueño && (
                         <>
                             <li className="nav-item">
-                                <Link className="nav-link" href="/mascotas/agregar">Agregar Mascota</Link>
+                                <Link className="nav-link text-white" href="/mascotas/agregar">Agregar Mascota</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" href="/solicitudes-recibidas">Solicitudes Recibidas</Link>
+                                <Link className="nav-link text-white" href="/solicitudes-recibidas">Solicitudes Recibidas</Link>
                             </li>
                         </>
                     )}
                     {usuario.esAdoptante && (
                         <li className="nav-item">
-                            <Link className="nav-link" href="/mis-solicitudes">Mis Solicitudes</Link>
+                            <Link className="nav-link text-white" href="/mis-solicitudes">Mis Solicitudes</Link>
                         </li>
                     )}
                     <li className="nav-item">
-                        <button className="nav-link btn btn-link" onClick={handleLogout}>
+                        <button className="nav-link btn btn-link text-white" onClick={handleLogout}>
                             Cerrar Sesión
                         </button>
                     </li>

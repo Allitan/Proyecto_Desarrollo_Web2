@@ -82,8 +82,12 @@ router.get('/solicitud/duenio', verificarToken, async (req, res) => {
 // con este es para obtener las solicitudes que un adoptante ha enviado
 router.get('/solicitud/mis-solicitudes', verificarToken, esAdoptante, async (req, res) => {
     try {
-        const adoptanteId = req.usuario.id_usuario;
+        if (!req.usuario || !req.usuario.id_usuario) {
+            return res.status(401).json({ mensaje: 'Información de usuario no disponible. Asegúrate de estar autenticado.' });
+        }
 
+        const adoptanteId = req.usuario.id_usuario;
+        console.log('ID del adoptante:', adoptanteId);
         const solicitudes = await SolicitudAdopcion.findAll({
             where: { adoptanteId },
             include: [{
